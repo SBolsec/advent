@@ -18,12 +18,23 @@ public class Day1Main {
 
         optionalElfWithMostCalories.ifPresent(System.out::println);
         optionalElfWithMostCalories.ifPresent(elf -> System.out.println("Total calories: " + elf.getTotalCalories()));
+
+        final Integer top3 = app.getTotalCaloriesOfTopElves(elves, 3);
+        System.out.println("Top 3: " + top3);
     }
 
     public Optional<Elf> getElfWithMostCalories(List<Elf> elves) {
         return elves.stream()
                 .sorted(Comparator.comparing(Elf::getTotalCalories).reversed())
                 .findFirst();
+    }
+
+    public Integer getTotalCaloriesOfTopElves(List<Elf> elves, int limit) {
+        return elves.stream()
+                .sorted(Comparator.comparing(Elf::getTotalCalories).reversed())
+                .limit(limit)
+                .mapToInt(Elf::getTotalCalories)
+                .sum();
     }
 
     public List<Elf> loadElves() {
